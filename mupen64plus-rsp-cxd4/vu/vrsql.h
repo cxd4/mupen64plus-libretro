@@ -1,6 +1,6 @@
 /******************************************************************************\
 * Authors:  Iconoclast                                                         *
-* Release:  2013.11.26                                                         *
+* Release:  2018.11.25                                                         *
 * License:  CC0 Public Domain Dedication                                       *
 *                                                                              *
 * To the extent possible under law, the author(s) have dedicated all copyright *
@@ -16,8 +16,10 @@
 
 static void VRSQL(int vd, int de, int vt, int e)
 {
-    DivIn &= -DPH;
-    DivIn |= (unsigned short)VR[vt][e & 07];
+    if (DPH == SP_DIV_PRECISION_SINGLE)
+        DivIn  = VR[vt][e & 07];
+    else
+        DivIn |= (unsigned short)VR[vt][e & 07];
     do_div(DivIn, SP_DIV_SQRT_YES, DPH);
     SHUFFLE_VECTOR(VACC_L, VR[vt], e);
     VR[vd][de &= 07] = (short)DivOut;
